@@ -6,4 +6,5 @@ import ru.kovshov.cloud.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+
 }
