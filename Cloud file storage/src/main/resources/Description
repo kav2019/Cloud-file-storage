@@ -1,0 +1,3 @@
+Table:
+    - User (id, username, email, password, userRole)
+    - Role (userId, role)
