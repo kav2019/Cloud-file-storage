@@ -7,18 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
+import ru.kovshov.cloud.dto.UserDTO;
 import ru.kovshov.cloud.model.User;
 
 
+import static net.bytebuddy.matcher.ElementMatchers.is;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -44,8 +45,6 @@ class UserControllerTest {
     void getCurrentUser() throws Exception {
         mockMvc.perform(get("/api/user/3 "))
                 .andExpect(status().isOk());
-//                .andExpect(jsonPath("$.id").isNumber())
-//                .andExpect(jsonPath("$.username").value("Alexandr"));
     }
 
 
@@ -63,21 +62,28 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
         )
                 .andExpect(status().isOk());
-//                .andExpect(jsonPath("$.id").isNumber())
-//                .andExpect(jsonPath("$.username").value("Alexandr"));
     }
 
 
-//    @Test
-//    public void givenUsers_whenGetUsers_thenStatus200()
-//            throws Exception {
-//
-//
-//        mockMvc.perform(get("/api/user")
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(content()
-//                        .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-//                .andExpect(jsonPath("$[0].name", is("bob")));
-//    }
+    // test getting users from bd
+    @Test
+    public void givenAllUsersControllerTest()
+            throws Exception {
+        mockMvc.perform(get("/api/user/2")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content()
+                        .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content()
+                        .json("{\"id\":2,\"username\":\"New user333\",\"email\":\"new3@mail.ru\"}"));
+    }
+
+
+    @Test
+    public void whenValidName_thenEmployeeShouldBeFound() {
+        String name = "Alexandr";
+        ResponseEntity<UserDTO> found = userController.getCurrentUser(3);
+        assertThat(found.getBody().getUsername())
+                .isEqualTo(name);
+    }
 }
