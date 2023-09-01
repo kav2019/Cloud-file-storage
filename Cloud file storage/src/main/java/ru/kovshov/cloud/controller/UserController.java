@@ -11,6 +11,9 @@ import ru.kovshov.cloud.facade.UserFacade;
 import ru.kovshov.cloud.model.User;
 import ru.kovshov.cloud.service.UserService;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/api/user")
 @CrossOrigin
@@ -44,6 +47,19 @@ public class UserController {
         user.setPassword(userRequest.getPassword());
         LOG.info("User {} save to form", user.getUsername());
         return new ResponseEntity<>(UserFacade.userToUserDTO(userService.saveUser(user)), HttpStatus.OK);
+    }
+
+
+    // FIX RETURN data when userList is null
+    @GetMapping("/all")
+    public ResponseEntity<List<UserDTO>> getAllUsers(){
+        List<User> userList = userService.getAllUsers();
+        if (userList.isEmpty()){
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        }
+        List<UserDTO> userDTOList = userList.stream()
+                .map(x -> UserFacade.userToUserDTO(x)).collect(Collectors.toList());
+        return new ResponseEntity<>(userDTOList, HttpStatus.OK);
     }
 
 }
