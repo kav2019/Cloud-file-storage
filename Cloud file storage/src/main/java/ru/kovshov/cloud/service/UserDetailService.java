@@ -28,4 +28,13 @@ public class UserDetailService implements UserDetailsService {
         }
         return user.get();
     }
+
+
+    public UserDetails loadUserByUserId(Long userId) throws UsernameNotFoundException {
+        Optional<User> user = userService.findUserById(userId);
+        if(user.isEmpty()){
+            throw new UsernameNotFoundException("User not found");
+        }
+        return user.get();
+    }
 }

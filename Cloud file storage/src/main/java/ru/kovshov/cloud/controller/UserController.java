@@ -12,6 +12,7 @@ import ru.kovshov.cloud.model.User;
 import ru.kovshov.cloud.service.UserService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -30,11 +31,11 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserDTO> getCurrentUser(@PathVariable("userId") long userId) {
-        User user = userService.findUserById(userId);
-        if(user == null){
+        Optional<User> user = userService.findUserById(userId);
+        if(user.isEmpty()){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        UserDTO userDTO = UserFacade.userToUserDTO(user);
+        UserDTO userDTO = UserFacade.userToUserDTO(user.get());
         LOG.info("User {} send to user interface ", userDTO.getUsername());
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
