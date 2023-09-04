@@ -15,6 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ru.kovshov.cloud.security.old.JWTAuthenticationEntryPoint;
 import ru.kovshov.cloud.security.old.JWTAuthenticatonFilter;
+import ru.kovshov.cloud.security.old.JWTTokenProvaider;
 import ru.kovshov.cloud.service.UserDetailService;
 
 @Configuration
@@ -24,6 +25,8 @@ public class SecurityConfig {
     private JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     @Autowired
     private UserDetailService userDetailService;
+    @Autowired
+    private JWTTokenProvaider jwtTokenProvaider;
 
 
     @Bean
@@ -58,7 +61,7 @@ public class SecurityConfig {
 
     @Bean
     public JWTAuthenticatonFilter jwtAuthenticationFilter(){
-        return new JWTAuthenticatonFilter();
+        return new JWTAuthenticatonFilter(jwtTokenProvaider, userDetailService);
     }
 
     @Bean
