@@ -1,6 +1,6 @@
 04.09.23 figure out why when sending a user to /signin does not compare passwords -> passwordEncoder.matches(passFromForm, passFromDB)
  and add in pom.xml jjwt-jackson, jjwt-impl
 
-5.09.23 fix bags on authController
+5.09.23 fix bags on authController and setting repo
 
 start oa2
