@@ -1,5 +1,7 @@
 package ru.kovshov.cloud.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.kovshov.cloud.facade.UserFacade;
+import ru.kovshov.cloud.model.Role;
 import ru.kovshov.cloud.model.User;
 import ru.kovshov.cloud.payload.request.LoginRequest;
 import ru.kovshov.cloud.payload.request.SignupRequest;
@@ -22,13 +25,16 @@ import ru.kovshov.cloud.security.ValidationPassword;
 import ru.kovshov.cloud.security.old.JWTTokenProvaider;
 import ru.kovshov.cloud.service.UserService;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin
 @PreAuthorize("permitAll()")
 public class AuthController {
+    public static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
 
     private final UserService userService;
     private final UserFacade userFacade;
@@ -51,6 +57,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<Object> registerUser(@RequestBody SignupRequest signupRequest){
+        LOG.info("we give email: {}", signupRequest.getEmail());
         Optional<User> userFromDb = userService.getUserByEmail(signupRequest.getEmail());
         if(userFromDb.isPresent()){
             return new ResponseEntity<>(new UserExistError(), HttpStatus.BAD_REQUEST);
@@ -60,6 +67,7 @@ public class AuthController {
         newUser.setUsername(signupRequest.getUsername());
         newUser.setEmail(signupRequest.getEmail());
         newUser.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
+        newUser.addRole(Role.USER);
         userService.saveUser(newUser);
         return new ResponseEntity<>(userFacade.userToUserDTO(newUser), HttpStatus.OK);
     }

@@ -9,3 +9,10 @@ create table Users(
 
 create database cloud;
 
+drop table if exists user_role;
+create table user_role(
+    id serial primary key ,
+    user_id varchar not null,
+    role varchar not null
+    FOREIGN KEY (user_id) REFERENCES Users (id)
+);
