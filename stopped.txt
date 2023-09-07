@@ -3,4 +3,6 @@
 
 5.09.23 fix bags on authController and setting repo
 
+6.09.23 add angular
+
 start oa2

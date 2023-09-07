@@ -39,17 +39,28 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> userRole = new HashSet<>();
 
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        List<String> list = userRole.
+//                stream()
+//                .map(x -> x.getString())
+//                .collect(Collectors.toList());
+//        List<GrantedAuthority> authorityList = list.stream()
+//                .map(a -> new SimpleGrantedAuthority(a))
+//                .collect(Collectors.toList());
+//        return authorityList;
+//        };
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<String> list = userRole.
+        List<GrantedAuthority> list = userRole.
                 stream()
                 .map(x -> x.getString())
-                .collect(Collectors.toList());
-        List<GrantedAuthority> authorityList = list.stream()
                 .map(a -> new SimpleGrantedAuthority(a))
                 .collect(Collectors.toList());
-        return authorityList;
-        };
+        return list;
+    };
 
     public void addRole(Role role){
         userRole.add(role);

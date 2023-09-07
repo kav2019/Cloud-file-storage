@@ -14,8 +14,4 @@ public class UserDTO {
     private long id;
     private String username;
     private String email;
-
-    public UserDTO userToUserDTO(User user){
-        return new UserDTO(user.getId(), user.getUsername(), user.getEmail());
-    }
 }
