@@ -2,9 +2,11 @@ package ru.kovshov.cloud.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.kovshov.cloud.exception.UserNotFoundExeption;
 import ru.kovshov.cloud.model.User;
 import ru.kovshov.cloud.repository.UserRepository;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,5 +38,10 @@ public class UserService {
 
     public Optional<User> getUserByEmail(String email){
         return userRepository.findUserByEmail(email);
+    }
+
+    public User getCurrentUser(Principal principal){
+        return userRepository.findUserByEmail(principal.getName())
+                .orElseThrow(() ->new UserNotFoundExeption("Username not found with username " + principal.getName()));
     }
 }

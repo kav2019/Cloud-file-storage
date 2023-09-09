@@ -7,7 +7,7 @@ import ru.kovshov.cloud.model.User;
 
 @Component
 public class UserFacade {
-    public static UserDTO userToUserDTO(User user){
+    public UserDTO userToUserDTO(User user){
         return new UserDTO(user.getId(), user.getUsername(), user.getEmail());
     }
 }

@@ -11,6 +11,7 @@ import ru.kovshov.cloud.facade.UserFacade;
 import ru.kovshov.cloud.model.User;
 import ru.kovshov.cloud.service.UserService;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,13 +30,20 @@ public class UserController {
         this.userFacade = userFacade;
     }
 
+    public ResponseEntity<UserDTO> getCurrentUser(Principal principal){
+        User user = userService.getCurrentUser(principal);
+        UserDTO userDTO = userFacade.userToUserDTO(user);
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+
+    }
+
     @GetMapping("/{userId}")
     public ResponseEntity<UserDTO> getCurrentUser(@PathVariable("userId") long userId) {
         Optional<User> user = userService.findUserById(userId);
         if(user.isEmpty()){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        UserDTO userDTO = UserFacade.userToUserDTO(user.get());
+        UserDTO userDTO = userFacade.userToUserDTO(user.get());
         LOG.info("User {} send to user interface ", userDTO.getUsername());
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
@@ -47,7 +55,7 @@ public class UserController {
         user.setEmail(userRequest.getEmail());
         user.setPassword(userRequest.getPassword());
         LOG.info("User {} save to form", user.getUsername());
-        return new ResponseEntity<>(UserFacade.userToUserDTO(userService.saveUser(user)), HttpStatus.OK);
+        return new ResponseEntity<>(userFacade.userToUserDTO(userService.saveUser(user)), HttpStatus.OK);
     }
 
 
@@ -59,7 +67,8 @@ public class UserController {
             return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         }
         List<UserDTO> userDTOList = userList.stream()
-                .map(x -> UserFacade.userToUserDTO(x)).collect(Collectors.toList());
+                .map(x -> userFacade.userToUserDTO(x))
+                .collect(Collectors.toList());
         return new ResponseEntity<>(userDTOList, HttpStatus.OK);
     }
 
