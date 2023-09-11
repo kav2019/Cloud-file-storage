@@ -7,4 +7,6 @@
 
 10.09.23 add main components angular
 
+11.09.23 full error - add in tsconfig.json -> "noImplicitAny": false
+
 start debbag angular

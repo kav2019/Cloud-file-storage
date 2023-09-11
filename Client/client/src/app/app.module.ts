@@ -16,9 +16,9 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     LoginComponent
   ],
     imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        RouterOutlet,
+      BrowserModule,
+      BrowserAnimationsModule,
+      RouterOutlet,
       MaterialModule,
       FormsModule,
       ReactiveFormsModule
