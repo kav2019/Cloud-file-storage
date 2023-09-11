@@ -12,11 +12,12 @@ import {TokenStorgeService} from "../../service/token-storge.service";
 })
 export class LoginComponent implements OnInit{
 
-  public loginForm: FormGroup;
+  // public loginForm: FormGroup;
 
 
   constructor(
     private authService: AuthService,
+    public loginForm: FormGroup,
     private tokenStorage: TokenStorgeService,
     private notificationService: NotificationService,
     private router: Router,
