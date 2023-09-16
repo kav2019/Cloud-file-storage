@@ -9,4 +9,6 @@
 
 11.09.23 full error - add in tsconfig.json -> "noImplicitAny": false
 
+16.09.23 setup ubuntu
+
 start debbag angular
