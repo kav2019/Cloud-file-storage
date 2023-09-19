@@ -10,11 +10,12 @@ import {NotificationService} from "../../service/notification.service";
 })
 export class RegisterComponent {
 
-  // public registerForm: FormGroup;
+  // @ts-ignore
+  public registerForm: FormGroup;
 
   constructor(
     private authService: AuthService,
-    public registerForm: FormGroup,
+    // public registerForm: FormGroup,
     private notificationService: NotificationService,
     private fb: FormBuilder
   ) {
