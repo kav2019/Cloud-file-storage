@@ -50,6 +50,9 @@ public class UserController {
 
     @PostMapping("/create")
     public ResponseEntity<UserDTO> saveUser(@RequestBody User userRequest){
+        if(userRequest == null){
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
         User user = new User();
         user.setUsername(userRequest.getUsername());
         user.setEmail(userRequest.getEmail());
@@ -70,6 +73,14 @@ public class UserController {
                 .map(x -> userFacade.userToUserDTO(x))
                 .collect(Collectors.toList());
         return new ResponseEntity<>(userDTOList, HttpStatus.OK);
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<HttpStatus> deletUser(@RequestBody UserDTO userDTO){
+        if(userService.dellUser(userDTO.getEmail()) == 1){
+            return new ResponseEntity<>(HttpStatus.OK);
+        };
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 }

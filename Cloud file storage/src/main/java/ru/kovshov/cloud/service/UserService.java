@@ -44,4 +44,9 @@ public class UserService {
         return userRepository.findUserByEmail(principal.getName())
                 .orElseThrow(() ->new UserNotFoundExeption("Username not found with username " + principal.getName()));
     }
+
+    public Integer dellUser(String email){
+        userRepository.deleteUserByEmail(email);
+        return 1;
+    }
 }
