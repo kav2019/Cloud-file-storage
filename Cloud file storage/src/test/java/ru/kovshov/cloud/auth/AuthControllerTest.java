@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders;
 import org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
@@ -21,10 +19,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureMockMvc
 //@WithUserDetails("Alexandr")
 @WithMockUser(username="admin",password = "password", roles={"USER","ADMIN"})
-// @TestProperySource("/application-test.properties") при запуске тестов приолодения система пойдет брать проперти в это метсо
+// @TestProperySource("/application.properties") при запуске тестов приолодения система пойдет брать проперти в это метсо
 //    например что бы подлючить тестовую бд
-    @Sql(value = {"/create-user-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD) //ставится на уровне класс или метода,  на уровне класса будет выполняться ПЕРЕД каждым методом, код берет из ресурсов по имени файла
-    @Sql(value = {"/create-user-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD) //ставится на уровне класс или метода,  на уровне класса будет выполняться ПОСЛЕ каждым методом
+    @Sql(value = {"/other/create-user-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD) //ставится на уровне класс или метода,  на уровне класса будет выполняться ПЕРЕД каждым методом, код берет из ресурсов по имени файла
+    @Sql(value = {"/other/create-user-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD) //ставится на уровне класс или метода,  на уровне класса будет выполняться ПОСЛЕ каждым методом
 class AuthControllerTest {
     @Autowired
     private UserController userController;

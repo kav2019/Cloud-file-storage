@@ -13,6 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import ru.kovshov.cloud.security.old.JWTAuthenticationEntryPoint;
 import ru.kovshov.cloud.security.old.JWTAuthenticatonFilter;
 import ru.kovshov.cloud.security.old.JWTTokenProvaider;
@@ -29,6 +32,10 @@ public class SecurityConfig {
     private JWTTokenProvaider jwtTokenProvaider;
 
 
+//    @Bean
+//    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
+//        return new MvcRequestMatcher.Builder(introspector);
+//    }
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
@@ -38,7 +45,8 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers(SecurityConstants.SING_UP_URLS).permitAll()
+//                .requestMatchers(SecurityConstants.SING_UP_URLS).permitAll()
+                .requestMatchers(new AntPathRequestMatcher(SecurityConstants.SING_UP_URLS)).permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
