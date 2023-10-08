@@ -16,3 +16,15 @@ create table user_role(
     role varchar not null
     FOREIGN KEY (user_id) REFERENCES Users (id)
 );
+
+
+
+drop table if exists directory;
+create table directory(
+    id serial primary key ,
+    hightDirectoryId integer,
+    downDirectoryId integer,
+    name varchar not null,
+    user_id integer not null,
+    FOREIGN KEY (user_id) REFERENCES Users (id)
+);
