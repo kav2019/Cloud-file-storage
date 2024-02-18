@@ -8,6 +8,7 @@ import { IndexComponent } from './layout/index/index.component';
 import { LoginComponent } from './auth/login/login.component';
 import {MaterialModule} from "./material-module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
       RouterOutlet,
       MaterialModule,
       FormsModule,
-      ReactiveFormsModule
+      ReactiveFormsModule,
+      HttpClientModule
     ],
   providers: [],
   bootstrap: [AppComponent]

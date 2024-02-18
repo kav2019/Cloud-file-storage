@@ -8,8 +8,10 @@ import {HttpClient} from "@angular/common/http";
 })
 export class LoginComponent implements OnInit{
 
+  // @ts-ignore
+  public loginForm: FormGroup;
   constructor(
-    public loginForm: FormGroup,
+    // public loginForm: FormGroup,
     private fb: FormBuilder,
     private http: HttpClient
   ) {
